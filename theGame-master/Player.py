@@ -1,13 +1,14 @@
 import pygame
 import os
 
+
 class PlayerClass:
 
     xSpeed=0
     ySpeed=0
     maxSpeed=5
-    width=50
-    height=50
+    width=150
+    height=300
     color=(0, 128, 255)
     points=0
 
@@ -21,6 +22,7 @@ class PlayerClass:
         self.theScreen=screen
         self.screenWidth = self.theScreen.get_size()[0] #
         self.screenHeight = self.theScreen.get_size()[1]
+
         #self.terrainCollection=terrainCollection
 
     def update(self):
@@ -54,5 +56,13 @@ class PlayerClass:
         if self.y<0:
             self.y=0
 
+
+    pygame.display.set_mode()
+    Star = pygame.image.load('Baby.png').convert()
+
     def draw(self):
         pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+
+        self.Star = pygame.transform.scale(self.Star, (self.width, self.height))
+        self.theScreen.blit(self.Star, (self.x, self.y))
+
