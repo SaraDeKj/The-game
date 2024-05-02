@@ -49,7 +49,7 @@ def createTerrain():
 
 
 createTerrain()
-playerObject = PlayerClass(surface, xpos=100, ypos=100)  # , terrainCollection=terrain)
+playerObject = PlayerClass(surface, xpos=1000, ypos=500, terrainCollection=terrain)
 
 
 # COLLISION CHECKER tager imod to gameobjekter og returnrer true, hvis de rører hinanden:
