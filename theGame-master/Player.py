@@ -57,12 +57,14 @@ class PlayerClass:
             self.y=0
 
 
+# Finder Baby.png filen.
     pygame.display.set_mode()
-    Star = pygame.image.load('Baby.png').convert()
+    BabySkin = pygame.image.load('Baby.png').convert()
 
     def draw(self):
         pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
 
-        self.Star = pygame.transform.scale(self.Star, (self.width, self.height))
-        self.theScreen.blit(self.Star, (self.x, self.y))
+        # Sætter Spritens størrelse til playerens og tegner den.
+        self.BabySkin = pygame.transform.scale(self.BabySkin, (self.width, self.height))
+        self.theScreen.blit(self.BabySkin, (self.x, self.y))
 
