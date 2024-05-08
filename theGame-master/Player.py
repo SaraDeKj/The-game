@@ -7,10 +7,12 @@ class PlayerClass:
     xSpeed=0
     ySpeed=0
     maxSpeed=5
+    maxJumpSpeed=100
     width=150
     height=300
     color=(0, 128, 255)
     points=0
+    canJump=1
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav')) #kan også være .ogg eller .mp3
     collisionSFX = pygame.mixer.Sound(sfxPath)
@@ -59,7 +61,7 @@ class PlayerClass:
 
 # Finder Baby.png filen.
     pygame.display.set_mode()
-    BabySkin = pygame.image.load('Baby.png').convert()
+    BabySkin = pygame.image.load('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png').convert()
 
     def draw(self):
         pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
@@ -68,3 +70,7 @@ class PlayerClass:
         self.BabySkin = pygame.transform.scale(self.BabySkin, (self.width, self.height))
         self.theScreen.blit(self.BabySkin, (self.x, self.y))
 
+    def die(self):
+        print("dead")
+
+    
