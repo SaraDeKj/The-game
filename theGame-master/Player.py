@@ -17,6 +17,15 @@ class PlayerClass:
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav')) #kan også være .ogg eller .mp3
     collisionSFX = pygame.mixer.Sound(sfxPath)
 
+    from PlayerSpriteSheet import spritesheet
+    pygame.display.set_mode()
+    ...
+    ss = spritesheet('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png')
+    # Sprite is 16x16 pixels at location 0,0 in the file...
+    image = ss.image_at((0, 0, 200, 200))
+    images = []
+    # Load two images into an array, their transparent bit is (255, 255, 255)
+    images = ss.images_at((0, 0, 200, 200), (255, 255, 255))
 
     def __init__(self,screen,xpos,ypos,terrainCollection):
         self.x=xpos
@@ -67,8 +76,8 @@ class PlayerClass:
         pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
 
         # Sætter Spritens størrelse til playerens og tegner den.
-        self.BabySkin = pygame.transform.scale(self.BabySkin, (self.width, self.height))
-        self.theScreen.blit(self.BabySkin, (self.x, self.y))
+        self.images = pygame.transform.scale(self.image,(self.width, self.height))
+        self.theScreen.blit(self.images, (self.x, self.y))
 
     def die(self):
         print("dead")
