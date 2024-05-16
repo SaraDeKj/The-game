@@ -43,13 +43,11 @@ display = pygame.display.set_mode((gameWindowWidth, gameWindowHeight))  # go ful
 
 
 def createTerrain():
-    terrain.append(TerrainClass(surface, 200, 200, 200, 20))
-    terrain.append(TerrainClass(surface, 400, 200, 20, 200))
-    terrain.append(TerrainClass(surface, 600, 400, 20, 200))
+    terrain.append(TerrainClass(surface, 600, 700, 800, 600))
 
 
 createTerrain()
-playerObject = PlayerClass(surface, xpos=100, ypos=100)  # , terrainCollection=terrain)
+playerObject = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
 
 
 # COLLISION CHECKER tager imod to gameobjekter og returnrer true, hvis de rører hinanden:
@@ -73,10 +71,11 @@ while not done:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
         # -------PLAYER CONTROLS---------
+        playerObject.ySpeed = 10
         # KEY PRESSES:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                playerObject.ySpeed -= playerObject.maxSpeed
+                playerObject.ySpeed -= playerObject.maxJumpSpeed
             if event.key == pygame.K_DOWN:
                 playerObject.ySpeed += playerObject.maxSpeed
             if event.key == pygame.K_LEFT:
@@ -121,6 +120,8 @@ while not done:
         if collisionChecker(enemy, playerObject):
             playerObject.collisionSFX.play()
             print("OUCH!")
+
+
 
             playerObject.points = 0
 
