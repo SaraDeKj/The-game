@@ -1,5 +1,6 @@
 import pygame
 import os
+import PlayerSpriteSheet
 
 
 class PlayerClass:
@@ -8,24 +9,14 @@ class PlayerClass:
     ySpeed=0
     maxSpeed=5
     maxJumpSpeed=100
-    width=150
-    height=300
+    width=100
+    height=211
     color=(0, 128, 255)
     points=0
     canJump=1
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav')) #kan også være .ogg eller .mp3
     collisionSFX = pygame.mixer.Sound(sfxPath)
-
-    from PlayerSpriteSheet import spritesheet
-    pygame.display.set_mode()
-    ...
-    ss = spritesheet('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png')
-    # Sprite is 16x16 pixels at location 0,0 in the file...
-    image = ss.image_at((0, 0, 200, 200))
-    images = []
-    # Load two images into an array, their transparent bit is (255, 255, 255)
-    images = ss.images_at((0, 0, 200, 200), (255, 255, 255))
 
     def __init__(self,screen,xpos,ypos,terrainCollection):
         self.x=xpos
@@ -68,18 +59,18 @@ class PlayerClass:
             self.y=0
 
 
-# Finder Baby.png filen.
     pygame.display.set_mode()
-    BabySkin = pygame.image.load('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png').convert()
+    Lars = pygame.image.load('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png').convert_alpha()
+    sprite_sheets = PlayerSpriteSheet.SpriteSheet(Lars)
+
+    frame_0 = sprite_sheets.get_image(0,211,211, 1)
+    frame_1 = sprite_sheets.get_image(1, 211, 211, 1)
 
     def draw(self):
-        pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        pygame.draw.rect(self.theScreen, pygame.SRCALPHA, pygame.Rect(self.x, self.y, self.width, self.height))
+        self.theScreen.blit(self.frame_0, (self.x - self.width/2, self.y))
 
-        # Sætter Spritens størrelse til playerens og tegner den.
-        self.images = pygame.transform.scale(self.image,(self.width, self.height))
-        self.theScreen.blit(self.images, (self.x, self.y))
-
-    def die(self):
-        print("dead")
+def die(self):
+    print("dead")
 
     
