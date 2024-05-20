@@ -47,7 +47,8 @@ def createTerrain():
 
 
 createTerrain()
-playerObject = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
+playerObject1 = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
+playerObject2 = PlayerClass(surface, xpos=1000, ypos=390, terrainCollection=terrain)
 
 
 # COLLISION CHECKER tager imod to gameobjekter og returnrer true, hvis de rører hinanden:
@@ -71,36 +72,45 @@ while not done:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
         # -------PLAYER CONTROLS---------
-        playerObject.ySpeed = 10
+
         # KEY PRESSES:
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                playerObject.ySpeed -= playerObject.maxJumpSpeed
-            if event.key == pygame.K_DOWN:
-                playerObject.ySpeed += playerObject.maxSpeed
             if event.key == pygame.K_LEFT:
-                playerObject.xSpeed -= playerObject.maxSpeed
+                playerObject1.xSpeed -= playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
-                playerObject.xSpeed += playerObject.maxSpeed
+                playerObject1.xSpeed += playerObject1.maxSpeed
+
                 # Skud:                          .. Men kun når spilleren bevæger sig:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
             # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+
+                #Jumping
+            #https://www.youtube.com/watch?v=ST-Qq3WBZBE&ab_channel=baraltech
+            keys_pressed = pygame.key.get_pressed()
+            if keys_pressed[pygame.K_SPACE]:
+                playerObject1.jumping = True
+
+            if playerObject1.jumping:
+                playerObject1.y -= playerObject1.ySpeed
+                playerObject1.ySpeed -= playerObject1.yGravity
+                if playerObject1.ySpeed < -playerObject1.jumpHeight:
+                    playerObject1.jumping = False
+                    playerObject1.y = playerObject1.jumpHeight
+
+
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                playerObject.ySpeed += playerObject.maxSpeed
-            if event.key == pygame.K_DOWN:
-                playerObject.ySpeed -= playerObject.maxSpeed
             if event.key == pygame.K_LEFT:
-                playerObject.xSpeed += playerObject.maxSpeed
+                playerObject1.xSpeed += playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
-                playerObject.xSpeed -= playerObject.maxSpeed
+                playerObject1.xSpeed -= playerObject1.maxSpeed
     # debug: print out unused pygame events
     # else:
     #        print(event)
 
     # UPDATE GAME OBJECTS:
-    playerObject.update()
+    playerObject1.update()
+    playerObject2.update()
     for shot in shots:
         shot.update()
     for enemy in enemies:
@@ -112,22 +122,21 @@ while not done:
             if collisionChecker(shot, enemy):
                 enemyIsDead = True
                 shots.remove(shot)
-                playerObject.points += 1
+                playerObject1.points += 1
                 enemy.playSound()
                 # print('Points:',playerObject.points)
-                if playerObject.points > highScore:
-                    highScore = playerObject.points
-        if collisionChecker(enemy, playerObject):
-            playerObject.collisionSFX.play()
+                if playerObject1.points > highScore:
+                    highScore = playerObject1.points
+        if collisionChecker(enemy, playerObject1):
+            playerObject1.collisionSFX.play()
             print("OUCH!")
 
-
-
-            playerObject.points = 0
+            playerObject1.points = 0
 
     # DRAW GAME OBJECTS:
     surface.fill((0, 0, 0))  # blank screen. (or maybe draw a background)
-    playerObject.draw()
+    playerObject1.draw()
+    playerObject2.draw()
     for shot in shots:
         shot.draw()
     for enemy in enemies:
