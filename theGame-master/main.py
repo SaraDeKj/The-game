@@ -12,12 +12,14 @@ pygame.mixer.music.play(-1)
 from Player import PlayerClass
 from Shot import ShotClass
 from Terrain import TerrainClass
+from startingscreen import StartingscreenClass
 
 from random import randint as rando
 
 clock = pygame.time.Clock()
 gameWindowHeight = 1080
 gameWindowWidth = 1920
+
 
 terrain = []
 # Liste der skal indeholde AKTIVE enemy objekter:
@@ -41,6 +43,9 @@ gameWindowWidth, gameWindowHeight = pygame.display.Info().current_w, pygame.disp
 surface = pygame.Surface((1920, 1080))
 display = pygame.display.set_mode((gameWindowWidth, gameWindowHeight))  # go fullscreen to any resolution
 
+#startingscreen virker virkelige ikke
+#def StartingScreen():
+#    StartingscreenClass()
 
 def createTerrain():
     terrain.append(TerrainClass(surface, 600, 700, 800, 600))
