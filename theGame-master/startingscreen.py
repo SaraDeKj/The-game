@@ -1,11 +1,13 @@
 import pygame
 import os
-surface = pygame.Surface((1920, 1080))
+pygame.init()
+
+surface = pygame.display.set_mode((1920, 1080))
 
 class StartingscreenClass:
-    backgroundbillede = pygame.image.load('billeder/Background.png')
-    done = False
-    while not done:
-        for event in pg.event.get():
-            surface.fill(0,0,0)
+    backgroundbillede = pygame.image.load('Images/Background.png')
+    Done = False
+    while not Done:
+        surface.blit(backgroundbillede, (300, 150))
+        pygame.display.update()
 
