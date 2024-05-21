@@ -11,7 +11,7 @@ pygame.mixer.music.load(musicPath)  # https://soundcloud.com/synthwave80s/01-vic
 pygame.mixer.music.play(-1)
 from Player import PlayerClass
 from Shot import ShotClass
-from Terrain import TerrainClass
+from Terrain import TeSSrrainClass
 from startingscreen import StartingscreenClass
 
 from random import randint as rando
