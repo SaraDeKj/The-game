@@ -86,10 +86,6 @@ while not done:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
-            if event.key == pygame.K_UP and not playerObject1.jumping:
-                playerObject1.ySpeed = -50
-                playerObject1.jumping = True
-                playerObject1.jumpHeight = playerObject1.y - 30
 
                 # Skud:                          .. Men kun når spilleren bevæger sig:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
@@ -97,13 +93,9 @@ while not done:
 
             # Player 2
             if event.key == pygame.K_a:
-                playerObject1.xSpeed -= playerObject1.maxSpeed
+                playerObject2.xSpeed -= playerObject2.maxSpeed
             if event.key == pygame.K_d:
-                playerObject1.xSpeed += playerObject1.maxSpeed
-            if event.key == pygame.K_w and not playerObject1.jumping:
-                playerObject1.ySpeed = -50
-                playerObject1.jumping = True
-                playerObject1.jumpHeight = playerObject1.y - 30
+                playerObject2.xSpeed += playerObject2.maxSpeed
 
                 # Skud:                          .. Men kun når spilleren bevæger sig:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
@@ -118,16 +110,12 @@ while not done:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
             #Player 2
             if event.key == pygame.K_a:
-                playerObject1.xSpeed += playerObject1.maxSpeed
+                playerObject2.xSpeed += playerObject1.maxSpeed
             if event.key == pygame.K_d:
-                playerObject1.xSpeed -= playerObject1.maxSpeed
+                playerObject2.xSpeed -= playerObject1.maxSpeed
     # debug: print out unused pygame events
     # else:
     #        print(event)
-
-    if playerObject1.ySpeed <= playerObject1.jumpHeight:
-        playerObject1.ySpeed = 5
-        playerObject1.jumping = False
 
     # UPDATE GAME OBJECTS:
     playerObject1.update()
