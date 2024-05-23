@@ -13,9 +13,13 @@ class TerrainClass:
         self.y = _y
         self.width = _width
         self.height = _height
+        self.terrainLook = pygame.image.load('Images/Background.png').convert_alpha()
 
     def draw(self):
         pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        terrainLook = pygame.transform.scale(self.terrainLook, (self.width, self.height))
+        self.theScreen.blit(terrainLook, (self.x, self.y))
+
 
 
 pygame.display.set_caption("Platformer")

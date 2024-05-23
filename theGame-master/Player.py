@@ -10,10 +10,7 @@ class PlayerClass:
     height = 211
     color = (0, 128, 255)
     points = 0
-    yGravity = 1
-    ySpeed = 0
-    jumping = False
-    jumpHeight = 0
+    ySpeed = 5
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav'))  # kan også være .ogg eller .mp3
     collisionSFX = pygame.mixer.Sound(sfxPath)
