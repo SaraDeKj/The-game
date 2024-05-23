@@ -74,29 +74,20 @@ while not done:
         # -------PLAYER CONTROLS---------
 
         # KEY PRESSES:
+        #Player 1
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
+            if event.key == pygame.K_UP and not playerObject1.jumping:
+                playerObject1.ySpeed = -50
+                playerObject1.jumping = True
+                playerObject1.jumpHeight = playerObject1.y - 30
 
                 # Skud:                          .. Men kun når spilleren bevæger sig:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
             # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
-
-                #Jumping
-            #https://www.youtube.com/watch?v=ST-Qq3WBZBE&ab_channel=baraltech
-            keys_pressed = pygame.key.get_pressed()
-            if keys_pressed[pygame.K_SPACE]:
-                playerObject1.jumping = True
-
-            if playerObject1.jumping:
-                playerObject1.y -= playerObject1.ySpeed
-                playerObject1.ySpeed -= playerObject1.yGravity
-                if playerObject1.ySpeed < -playerObject1.jumpHeight:
-                    playerObject1.jumping = False
-                    playerObject1.y = playerObject1.jumpHeight
-
 
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
@@ -107,6 +98,10 @@ while not done:
     # debug: print out unused pygame events
     # else:
     #        print(event)
+
+    if playerObject1.ySpeed <= playerObject1.jumpHeight:
+        playerObject1.ySpeed = 5
+        playerObject1.jumping = False
 
     # UPDATE GAME OBJECTS:
     playerObject1.update()
