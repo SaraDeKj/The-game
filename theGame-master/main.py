@@ -11,8 +11,8 @@ pygame.mixer.music.load(musicPath)  # https://soundcloud.com/synthwave80s/01-vic
 pygame.mixer.music.play(-1)
 from Player import PlayerClass
 from Shot import ShotClass
-from Terrain import TeSSrrainClass
-from startingscreen import StartingscreenClass
+from Terrain import TerrainClass
+#from startingscreen import StartingscreenClass
 
 from random import randint as rando
 
@@ -81,6 +81,7 @@ while not done:
         # KEY PRESSES:
         #Player 1
         if event.type == pygame.KEYDOWN:
+            # Player 1
             if event.key == pygame.K_LEFT:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
@@ -94,11 +95,31 @@ while not done:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
             # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
 
+            # Player 2
+            if event.key == pygame.K_a:
+                playerObject1.xSpeed -= playerObject1.maxSpeed
+            if event.key == pygame.K_d:
+                playerObject1.xSpeed += playerObject1.maxSpeed
+            if event.key == pygame.K_w and not playerObject1.jumping:
+                playerObject1.ySpeed = -50
+                playerObject1.jumping = True
+                playerObject1.jumpHeight = playerObject1.y - 30
+
+                # Skud:                          .. Men kun når spilleren bevæger sig:
+            # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+            # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
+            #Player 1
             if event.key == pygame.K_LEFT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
+                playerObject1.xSpeed -= playerObject1.maxSpeed
+            #Player 2
+            if event.key == pygame.K_a:
+                playerObject1.xSpeed += playerObject1.maxSpeed
+            if event.key == pygame.K_d:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
     # debug: print out unused pygame events
     # else:
