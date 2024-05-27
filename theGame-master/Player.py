@@ -11,6 +11,7 @@ class PlayerClass:
     color = (0, 128, 255)
     points = 0
     ySpeed = 5
+    jumping = False
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav'))  # kan også være .ogg eller .mp3
     collisionSFX = pygame.mixer.Sound(sfxPath)
@@ -56,15 +57,11 @@ class PlayerClass:
             self.y = 0
 
     pygame.display.set_mode()
-    Lars = pygame.image.load('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png').convert_alpha()
-    sprite_sheets = PlayerSpriteSheet.SpriteSheet(Lars)
 
-    frame_0 = sprite_sheets.get_image(0, 211, 211, 1)
-    frame_1 = sprite_sheets.get_image(1, 211, 211, 1)
 
-    def draw(self):
+    def draw(self, image):
         pygame.draw.rect(self.theScreen, pygame.SRCALPHA, pygame.Rect(self.x, self.y, self.width, self.height))
-        self.theScreen.blit(self.frame_0, (self.x - self.width / 2, self.y))
+        self.theScreen.blit(image, (self.x - self.width / 2, self.y))
 
 
 def die(self):

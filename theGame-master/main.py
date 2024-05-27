@@ -13,6 +13,7 @@ from Player import PlayerClass
 from Shot import ShotClass
 from Terrain import TerrainClass
 #from startingscreen import StartingscreenClass
+import PlayerSpriteSheet
 
 from random import randint as rando
 
@@ -55,7 +56,6 @@ createTerrain()
 playerObject1 = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
 playerObject2 = PlayerClass(surface, xpos=1000, ypos=390, terrainCollection=terrain)
 
-
 # COLLISION CHECKER tager imod to gameobjekter og returnrer true, hvis de rører hinanden:
 def collisionChecker(firstGameObject, secondGameObject):
     if firstGameObject.x + firstGameObject.width > secondGameObject.x and \
@@ -87,6 +87,8 @@ while not done:
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
 
+
+
                 # Skud:                          .. Men kun når spilleren bevæger sig:
             # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
             # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
@@ -108,11 +110,23 @@ while not done:
                 playerObject1.xSpeed += playerObject1.maxSpeed
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed -= playerObject1.maxSpeed
+            #Jumping
+            if event.key == pygame.K_UP and not playerObject1.jumping:
+                jumpStartP1 = playerObject1.y -1
+                playerObject1.ySpeed = -5
+                playerObject1.jumping = True
+
             #Player 2
             if event.key == pygame.K_a:
                 playerObject2.xSpeed += playerObject1.maxSpeed
             if event.key == pygame.K_d:
                 playerObject2.xSpeed -= playerObject1.maxSpeed
+            # Jumping
+            if event.key == pygame.K_w and not playerObject2.jumping:
+                jumpStartP2 = playerObject2.y - 1
+                playerObject2.ySpeed = -5
+                playerObject2.jumping = True
+
     # debug: print out unused pygame events
     # else:
     #        print(event)
@@ -141,11 +155,32 @@ while not done:
             print("OUCH!")
 
             playerObject1.points = 0
+    #Jumping player 1
+    if (playerObject1.jumping):
+        if (playerObject1.y < 350):
+            playerObject1.ySpeed = 5
+        if (playerObject1.y > jumpStartP1):
+            playerObject1.jumping = False
+
+    # Jumping player 2
+    if (playerObject2.jumping):
+        if (playerObject2.y < 350):
+            playerObject2.ySpeed = 5
+        if (playerObject2.y > jumpStartP2):
+            playerObject2.jumping = False
+
+    Players = pygame.image.load('Images/Players.png').convert_alpha()
+    sprite_sheets = PlayerSpriteSheet.SpriteSheet(Players)
+
+    Lars_1 = sprite_sheets.get_image(0, 211, 211, 1)
+    Lars_2 = sprite_sheets.get_image(1, 211, 211, 1)
+    Jørgen_1 = sprite_sheets.get_image(2, 211, 211, 1)
+    Jørgen_2 = sprite_sheets.get_image(3, 211, 211, 1)
 
     # DRAW GAME OBJECTS:
     surface.fill((0, 0, 0))  # blank screen. (or maybe draw a background)
-    playerObject1.draw()
-    playerObject2.draw()
+    playerObject1.draw(Jørgen_1)
+    playerObject2.draw(Lars_1)
     for shot in shots:
         shot.draw()
     for enemy in enemies:
