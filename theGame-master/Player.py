@@ -1,14 +1,11 @@
 import pygame
 import os
-import PlayerSpriteSheet
-
 
 class PlayerClass:
     xSpeed = 0
     maxSpeed = 5
     width = 100
     height = 211
-    color = (0, 128, 255)
     points = 0
     ySpeed = 5
     jumping = False
