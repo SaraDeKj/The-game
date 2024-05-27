@@ -64,5 +64,5 @@ class PlayerClass:
         self.theScreen.blit(image, (self.x - self.width / 2, self.y))
 
 
-def die(self):
-    print("dead")
+    def die(self):
+        print("dead")
