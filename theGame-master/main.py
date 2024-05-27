@@ -15,8 +15,6 @@ from Terrain import TerrainClass
 # from startingscreen import StartingscreenClass
 import PlayerSpriteSheet
 
-from random import randint as rando
-
 clock = pygame.time.Clock()
 gameWindowHeight = 1080
 gameWindowWidth = 1920
@@ -178,23 +176,20 @@ while not done:
     if playerObject1.x > 1375:
         jumpStartP1 = playerObject1.y - 1
         playerObject1.jumping = True
-        #playerObject1.ySpeed = 5
     if playerObject1.x < 525:
         jumpStartP1 = playerObject1.y - 1
         playerObject1.jumping = True
-        #playerObject1.ySpeed = 5
 
     # If player 2 er uden for bygningen kan den ikke hoppe
     if playerObject2.x > 1375:
         jumpStartP2 = playerObject2.y - 1
         playerObject2.jumping = True
-        #playerObject2.ySpeed = 5
     if playerObject2.x < 525:
         jumpStartP2 = playerObject2.y - 1
         playerObject2.jumping = True
-        #playerObject2.ySpeed = 5
 
     Players = pygame.image.load('Images/Players.png').convert_alpha()
+    bg = pygame.image.load("Images/Background.png").convert_alpha()
     sprite_sheets = PlayerSpriteSheet.SpriteSheet(Players)
 
     Lars_1 = sprite_sheets.get_image(0, 211, 211, 1)
