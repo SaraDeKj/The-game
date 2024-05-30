@@ -1,18 +1,15 @@
 import pygame
 import os
-import PlayerSpriteSheet
-
 
 class PlayerClass:
     xSpeed = 0
     maxSpeed = 5
     width = 100
     height = 211
-    color = (0, 128, 255)
     points = 0
-    yGravity = 1
-    jumpHeight = 20
-    ySpeed = jumpHeight
+    gravity = 10
+    jumpSpeed = -10
+    ySpeed = gravity
     jumping = False
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav'))  # kan også være .ogg eller .mp3
@@ -59,16 +56,12 @@ class PlayerClass:
             self.y = 0
 
     pygame.display.set_mode()
-    Lars = pygame.image.load('Images/Lars_der_er_sur_slet_ikke_leprocaun_.png').convert_alpha()
-    sprite_sheets = PlayerSpriteSheet.SpriteSheet(Lars)
 
-    frame_0 = sprite_sheets.get_image(0, 211, 211, 1)
-    frame_1 = sprite_sheets.get_image(1, 211, 211, 1)
 
-    def draw(self):
+    def draw(self, image):
         pygame.draw.rect(self.theScreen, pygame.SRCALPHA, pygame.Rect(self.x, self.y, self.width, self.height))
-        self.theScreen.blit(self.frame_0, (self.x - self.width / 2, self.y))
+        self.theScreen.blit(image, (self.x - self.width / 2, self.y))
 
 
-def die(self):
-    print("dead")
+    def die(self):
+        print("dead")

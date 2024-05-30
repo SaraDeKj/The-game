@@ -1,51 +1,96 @@
 import pygame
+from os.path import join
+
 pygame.init()
-width=800
-height=600
-screen=pygame.display.set_mode((0,0))
 
-class Terrain:
-    def __init__(self,x,y,w,h,image):
-        self.rect_width=w
-        self.rect_height=h
-        self.x=x
-        self.y=y
-        self.screen=pygame.display.set_mode((0,0))
+pygame.display.set_caption("Platformer")
+# Set full screen mode
+info = pygame.display.Info()  # Get screen info
+WIDTH, HEIGHT = info.current_w, info.current_h
+Fps = 60
+Player_Vel = 5
+Window = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
-        self.rect=pygame.Rect(self.x,self.y,self.rect_width,self.rect_height)
-        self.color = pygame.image.load(image).convert_alpha()
+def update(self):
+    self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
+    self.mask = pygame.mask.from_surface(self.sprite)
 
+def get_block(size):
+    path = join("assets", "Terrain", "Terrain.png")
+    image = pygame.image.load(path).convert_alpha()
+    surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
+    rect = pygame.Rect(96, 0, size, size)
+    surface.blit(image, (0, 0), rect)
+    return pygame.transform.scale2x(surface)
 
-    def draw(self):
-        #color = pygame.transform.scale(self.color, (self.rect_width, self.rect_height))
+class Object(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height=None):
+        super().__init__()
+        self.rect = pygame.Rect(x, y, width, height)
+        self.image = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.width = width
+        self.height = height
 
-        #pygame.draw.rect(screen, (255, 255, 255), self.rect)
-        n_x = self.rect_width // self.color.get_width()
-        n_y = self.rect_height // self.color.get_height()
-        #print(f"n_x: {n_x} n_Y:{n_y}")
-        for i in range(n_x):
-            for j in range(n_y):
-                self.screen.blit(self.color, (self.x+i*self.color.get_width(), self.y+j*self.color.get_height()))
+    def draw(self, win):
+        win.blit(self.image, (self.rect.x, self.rect.y))
 
+class Block(Object):
+    def __init__(self, x, y, size):
+        super().__init__(x, y, size, size)
+        block = get_block(size)
+        self.image.blit(block, (0, 0))
+        self.mask = pygame.mask.from_surface(self.image)
 
+def get_background(name):
+    image = pygame.image.load(join("assets", "Background", name))
+    _, _, width, height = image.get_rect()
+    tiles = []
+    for i in range(WIDTH // width + 1):
+        for j in range(HEIGHT // height + 1):
+            pos = (i * width, j * height)
+            tiles.append(pos)
+    return tiles, image
 
-
-Me=Terrain(400,600,800,400,"../billeder/mursten.png")
-#hhh=Terrain(200,200,128,128,"assets/Background/Yellow.png")
-Me.draw()
-#hhh.draw()
-run=True
-while run:
-    #screen.fill((0,0,0))
-
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            run=False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            run = False
-    #Me.draw()
+def draw(window, background, bg_image, objects):
+    for tile in background:
+        Window.blit(bg_image, tile)
+    for obj in objects:
+        obj.draw(window)
     pygame.display.update()
 
+def main(Window):
+    clock = pygame.time.Clock()
+    background, bg_image = get_background("Blue.png")
+    block_size = 96
+    num_blocks = WIDTH // 2 // block_size
+    start_x = (WIDTH - (num_blocks * block_size)) // 2
+    blocks = []
+    for i in range(num_blocks):
+        block_x = start_x + i * block_size
+        block_y = HEIGHT // 1.1 - block_size // 2
+        block_y1 = HEIGHT - block_size // 2
+        block_y2 = HEIGHT // 1.25 - block_size // 2
+        blocks.append(Block(block_x, block_y, block_size))
+        blocks.append(Block(block_x, block_y1, block_size))
+        blocks.append(Block(block_x, block_y2, block_size))
 
+    run = True
+    while run:
+        clock.tick(Fps)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                break
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                run = False
+                break
 
+        draw(Window, background, bg_image, blocks)
+
+    pygame.quit()
+    quit()
+
+if __name__ == "__main__":
+    print("main")
+    main(Window)
 
