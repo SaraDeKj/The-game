@@ -8,52 +8,47 @@ class StartingscreenClass:
         self.display = pygame.display.set_mode((gameWindowWidth, gameWindowHeight))  # go fullscreen to any resolution
         self.done = True
 
+    def text_objects(self,text, font):
+        textSurface = font.render(text, True,(192,192,192))
+        return textSurface, textSurface.get_rect()
 
 
-    def background(self):
-        backgroundbillede = pygame.image.load('Images/Background.png')
-        display =self.display
-        (display.blit(backgroundbillede, (300, 150)))
-        pygame.display.update()
-    def button (self):
-        font = pygame.font.Font(None, 24)
-        button_surface = pygame.Surface((150, 50))
-        text = font.render("Start", True, (0, 0, 0))
-        text_rect = text.get_rect(center=(button_surface.get_width() / 2, button_surface.get_height() / 2))
-        button_rect = pygame.Rect(125, 125, 150, 50)
 
-        for event in pygame.event.get():
-            # Check for the quit event
-            if event.type == pygame.QUIT:
-                # Quit the game
-                pygame.quit()
-                sys.exit()
+    def background(self, gameWindowWidth, gameWindowHeight):
+        while self.done == True:
 
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            # Call the on_mouse_button_down() function
-            if button_rect.collidepoint(event.pos):
-                self.done = False
-
-        # Check if the mouse is over the button. This will create the button hover effect
-        if button_rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(button_surface, (127, 255, 212), (1, 1, 148, 48))
+            backgroundbillede = pygame.image.load('Images/Background.png')
+            display =self.display
+            (display.blit(backgroundbillede, (300, 150)))
+            largeText = pygame.font.Font('fonts\Grand9K Pixel.ttf', 115)
+            TextSurf, TextRect = self.text_objects("Rooftop fighters", largeText)
+            TextRect.center = ((gameWindowWidth / 2), (gameWindowHeight / 4))
+            self.display.blit(TextSurf, TextRect)
+            pygame.display.update()
         else:
-            pygame.draw.rect(button_surface, (0, 0, 0), (0, 0, 150, 50))
-            pygame.draw.rect(button_surface, (255, 255, 255), (1, 1, 148, 48))
-            pygame.draw.rect(button_surface, (0, 0, 0), (1, 1, 148, 1), 2)
-            pygame.draw.rect(button_surface, (0, 100, 0), (1, 48, 148, 10), 2)
+            quit()
 
-        button_surface.blit(text, text_rect)
+    def button(self,msg, x, y, w, h, ic, ac, action=None):
+            mouse = pygame.mouse.get_pos()
+            click = pygame.mouse.get_pressed()
+            print(click)
+            if x + w > mouse[0] > x and y + h > mouse[1] > y:
+                pygame.draw.rect(self.display, ac, (x, y, w, h))
 
-        # Draw the button on the screen
-        self.display.blit(button_surface, (button_rect.x, button_rect.y))
+                if click[0] == 1 and action != None:
+                    self.done = False
+            else:
+                pygame.draw.rect(self.display, ic, (x, y, w, h))
 
-        # Update the game state
-        pygame.display.update()
+            smallText = pygame.font.SysFont("comicsansms", 20)
+            textSurf, textRect = self.text_objects(msg, smallText)
+            textRect.center = ((x + (w / 2)), (y + (h / 2)))
+            self.display.blit(textSurf, textRect)
+
 
 
 surfacedefined = StartingscreenClass((1920, 1080),1920, 1080)
-lavbagrund = surfacedefined.background()
-lavknap = surfacedefined.button()
-while True:
+lavknap = surfacedefined.button("Start",150,450,100,50,(0,200,0),(0,255,0))
+lavbagrund = surfacedefined.background(1920, 1080)
+while self.done == True:
     pass
