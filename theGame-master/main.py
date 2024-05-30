@@ -110,7 +110,7 @@ while not done:
             # Jumping
             if event.key == pygame.K_UP and not playerObject1.jumping:
                 jumpStartP1 = playerObject1.y - 1
-                playerObject1.ySpeed = -5
+                playerObject1.ySpeed = playerObject1.jumpSpeed
                 playerObject1.jumping = True
 
             # Player 2
@@ -121,7 +121,7 @@ while not done:
             # Jumping
             if event.key == pygame.K_w and not playerObject2.jumping:
                 jumpStartP2 = playerObject2.y - 1
-                playerObject2.ySpeed = -5
+                playerObject2.ySpeed = playerObject2.jumpSpeed
                 playerObject2.jumping = True
 
     # debug: print out unused pygame events
@@ -155,14 +155,14 @@ while not done:
     # Jumping player 1
     if playerObject1.jumping:
         if playerObject1.y < 350:
-            playerObject1.ySpeed = 5
+            playerObject1.ySpeed = playerObject1.gravity
         if playerObject1.y > jumpStartP1:
             playerObject1.jumping = False
 
     # Jumping player 2
     if playerObject2.jumping:
         if playerObject2.y < 350:
-            playerObject2.ySpeed = 5
+            playerObject2.ySpeed = playerObject1.gravity
         if playerObject2.y > jumpStartP2:
             playerObject2.jumping = False
 
