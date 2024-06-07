@@ -1,20 +1,49 @@
 import pygame
-from os.path import join
-
 pygame.init()
+width=800
+height=600
+screen=pygame.display.set_mode((0,0))
 
-class TerrainClass:
-    color = (100, 100, 100)
+class Terrain:
+    def __init__(self,x,y,w,h,image):
+        self.rect_width=w
+        self.rect_height=h
+        self.x=x
+        self.y=y
+        self.screen=pygame.display.set_mode((0,0))
 
-    def __init__(self, screen, _x, _y, _width, _height):
-        self.theScreen = screen
-        self.x = _x
-        self.y = _y
-        self.width = _width
-        self.height = _height
-        self.terrainLook = pygame.image.load('assets/Background/Blue.png').convert_alpha()
+        self.rect=pygame.Rect(self.x,self.y,self.rect_width,self.rect_height)
+        self.color = pygame.image.load(image).convert_alpha()
+
 
     def draw(self):
-        pygame.draw.rect(self.theScreen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
-        terrainLook = pygame.transform.scale(self.terrainLook, (self.width, self.height))
-        self.theScreen.blit(terrainLook, (self.x, self.y))
+        #color = pygame.transform.scale(self.color, (self.rect_width, self.rect_height))
+
+        #pygame.draw.rect(screen, (255, 255, 255), self.rect)
+        n_x = self.rect_width // self.color.get_width()
+        n_y = self.rect_height // self.color.get_height()
+        #print(f"n_x: {n_x} n_Y:{n_y}")
+        for i in range(n_x):
+            for j in range(n_y):
+                self.screen.blit(self.color, (self.x+i*self.color.get_width(), self.y+j*self.color.get_height()))
+
+
+
+
+Me=Terrain(400,600,800,400,"../billeder/mursten.png")
+#hhh=Terrain(200,200,128,128,"assets/Background/Yellow.png")
+Me.draw()
+#hhh.draw()
+run=True
+while run:
+    #screen.fill((0,0,0))
+
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            run=False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            run = False
+    #Me.draw()
+    pygame.display.update()
+
+
