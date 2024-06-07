@@ -86,9 +86,9 @@ while not done:
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
 
-                # Skud:                          .. Men kun når spilleren bevæger sig:
-            # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-            # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+                # Skud:
+            if event.key == pygame.K_m: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+               shots.append(ShotClass(surface, spawnPosX=playerObject1.x - playerObject1.width, spawnPosY=playerObject1.y + playerObject1.height / 2, playerSpeedX=-5, playerSpeedY=0))
 
             # Player 2
             if event.key == pygame.K_a:
@@ -96,9 +96,9 @@ while not done:
             if event.key == pygame.K_d:
                 playerObject2.xSpeed += playerObject2.maxSpeed
 
-                # Skud:                          .. Men kun når spilleren bevæger sig:
-            # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-            # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+                # Skud:
+            if event.key == pygame.K_e:  # and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+                shots.append(ShotClass(surface, spawnPosX=playerObject2.x + playerObject2.width, spawnPosY=playerObject2.y + playerObject2.height / 2, playerSpeedX=5,playerSpeedY=0))
 
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
@@ -133,25 +133,14 @@ while not done:
     playerObject2.update()
     for shot in shots:
         shot.update()
-    for enemy in enemies:
-        enemyIsDead = False  # boolean to check if enemy is dead, and remove it at end of for loop
-        enemy.update()
-        if enemy.x > gameWindowWidth or enemy.y > gameWindowHeight or enemy.x < 0 or enemy.y < 0:
-            enemyIsDead = True
-        for shot in shots:
-            if collisionChecker(shot, enemy):
-                enemyIsDead = True
-                shots.remove(shot)
-                playerObject1.points += 1
-                enemy.playSound()
-                # print('Points:',playerObject.points)
-                if playerObject1.points > highScore:
-                    highScore = playerObject1.points
-        if collisionChecker(enemy, playerObject1):
-            playerObject1.collisionSFX.play()
-            print("OUCH!")
+        if collisionChecker(shot, playerObject1):
+            playerObject1.x +=50
+            shots.remove(shot)
 
-            playerObject1.points = 0
+        if collisionChecker(shot, playerObject2):
+            playerObject2.x +=-50
+            shots.remove(shot)
+
     # Jumping player 1
     if playerObject1.jumping:
         if playerObject1.y < 350:
