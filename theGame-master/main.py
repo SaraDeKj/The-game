@@ -41,6 +41,10 @@ gameWindowWidth, gameWindowHeight = pygame.display.Info().current_w, pygame.disp
 surface = pygame.Surface((1920, 1080))
 display = pygame.display.set_mode((gameWindowWidth, gameWindowHeight))  # go fullscreen to any resolution
 
+# Background image
+background = pygame.image.load('Images/Background.png')
+background = pygame.transform.scale(background, (1920, 1080))
+
 
 # startingscreen virker virkelige ikke
 # def StartingScreen():
@@ -87,8 +91,10 @@ while not done:
                 playerObject1.xSpeed += playerObject1.maxSpeed
 
                 # Skud:
-            if event.key == pygame.K_m: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-               shots.append(ShotClass(surface, spawnPosX=playerObject1.x - playerObject1.width, spawnPosY=playerObject1.y + playerObject1.height / 2, playerSpeedX=-5, playerSpeedY=0))
+            if event.key == pygame.K_m:  # and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+                shots.append(ShotClass(surface, spawnPosX=playerObject1.x - playerObject1.width,
+                                       spawnPosY=playerObject1.y + playerObject1.height / 2, playerSpeedX=-5,
+                                       playerSpeedY=0))
 
             # Player 2
             if event.key == pygame.K_a:
@@ -98,7 +104,9 @@ while not done:
 
                 # Skud:
             if event.key == pygame.K_e:  # and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-                shots.append(ShotClass(surface, spawnPosX=playerObject2.x + playerObject2.width, spawnPosY=playerObject2.y + playerObject2.height / 2, playerSpeedX=5,playerSpeedY=0))
+                shots.append(ShotClass(surface, spawnPosX=playerObject2.x + playerObject2.width,
+                                       spawnPosY=playerObject2.y + playerObject2.height / 2, playerSpeedX=5,
+                                       playerSpeedY=0))
 
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
@@ -134,11 +142,11 @@ while not done:
     for shot in shots:
         shot.update()
         if collisionChecker(shot, playerObject1):
-            playerObject1.x +=50
+            playerObject1.x += 50
             shots.remove(shot)
 
         if collisionChecker(shot, playerObject2):
-            playerObject2.x +=-50
+            playerObject2.x += -50
             shots.remove(shot)
 
     # Jumping player 1
@@ -187,7 +195,9 @@ while not done:
     Jørgen_2 = sprite_sheets.get_image(3, 211, 211, 1)
 
     # DRAW GAME OBJECTS:
-    surface.fill((0, 0, 0))  # blank screen. (or maybe draw a background)
+    # Drawing background
+    surface.blit(background, (0, 0))
+
     if playerObject1.jumping:
         playerObject1.draw(Jørgen_2)
     else:
