@@ -12,7 +12,7 @@ pygame.mixer.music.play(-1)
 from Player import PlayerClass
 from Shot import ShotClass
 from Terrain import TerrainClass
-# from startingscreen import StartingscreenClass
+from startingscreen import StartingscreenClass
 import PlayerSpriteSheet
 
 clock = pygame.time.Clock()
@@ -47,8 +47,10 @@ background = pygame.transform.scale(background, (1920, 1080))
 
 
 # startingscreen virker virkelige ikke
-# def StartingScreen():
-#    StartingscreenClass()
+def StartingScreen():
+    surfacedefined = StartingscreenClass((1920, 1080), 1920, 1080)
+    lavbagrund = surfacedefined.background(1920, 1080)
+
 
 def createTerrain():
     terrain.append(TerrainClass(surface, 600, 700, 800, 600))
@@ -71,6 +73,8 @@ def collisionChecker(firstGameObject, secondGameObject):
 
 enemyMaxSpeed = 10
 number_of_enemies = 10
+
+StartingScreen()
 
 done = False
 while not done:
@@ -166,8 +170,15 @@ while not done:
     # Hvis player er faldet af
     if playerObject1.y > 800:
         playerObject1.die()
+        StartingScreen()
+        playerObject1 = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
+        playerObject2 = PlayerClass(surface, xpos=1000, ypos=390, terrainCollection=terrain)
+
     if playerObject2.y > 800:
         playerObject2.die()
+        StartingScreen()
+        playerObject1 = PlayerClass(surface, xpos=1100, ypos=390, terrainCollection=terrain)
+        playerObject2 = PlayerClass(surface, xpos=1000, ypos=390, terrainCollection=terrain)
 
     # If player 1 er uden for bygningen kan den ikke hoppe
     if playerObject1.x > 1375:
