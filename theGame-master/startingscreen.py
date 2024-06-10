@@ -56,7 +56,7 @@ class StartingscreenClass:
         else:
             quit()
 
-    def button( self, msg, x, y, w, h, ic, ac, action=None):
+    # def button( self, msg, x, y, w, h, ic, ac, action=None):
             mouse = pygame.mouse.get_pos()
             click = pygame.mouse.get_pressed()
             print(click)
