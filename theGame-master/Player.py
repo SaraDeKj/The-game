@@ -7,7 +7,9 @@ class PlayerClass:
     width = 100
     height = 211
     points = 0
-    ySpeed = 5
+    gravity = 10
+    jumpSpeed = -10
+    ySpeed = gravity
     jumping = False
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'aaw.wav'))  # kan også være .ogg eller .mp3

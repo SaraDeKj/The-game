@@ -41,6 +41,10 @@ gameWindowWidth, gameWindowHeight = pygame.display.Info().current_w, pygame.disp
 surface = pygame.Surface((1920, 1080))
 display = pygame.display.set_mode((gameWindowWidth, gameWindowHeight))  # go fullscreen to any resolution
 
+# Background image
+background = pygame.image.load('Images/Background.png')
+background = pygame.transform.scale(background, (1920, 1080))
+
 
 # startingscreen virker virkelige ikke
 # def StartingScreen():
@@ -86,9 +90,11 @@ while not done:
             if event.key == pygame.K_RIGHT:
                 playerObject1.xSpeed += playerObject1.maxSpeed
 
-                # Skud:                          .. Men kun når spilleren bevæger sig:
-            # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-            # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+                # Skud:
+            if event.key == pygame.K_m:  # and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+                shots.append(ShotClass(surface, spawnPosX=playerObject1.x - playerObject1.width,
+                                       spawnPosY=playerObject1.y + playerObject1.height / 2, playerSpeedX=-5,
+                                       playerSpeedY=0))
 
             # Player 2
             if event.key == pygame.K_a:
@@ -96,9 +102,11 @@ while not done:
             if event.key == pygame.K_d:
                 playerObject2.xSpeed += playerObject2.maxSpeed
 
-                # Skud:                          .. Men kun når spilleren bevæger sig:
-            # if event.key == pygame.K_SPACE: #and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
-            # shots.append(ShotClass(surface, spawnPosX=playerObject.x + playerObject.width / 2, spawnPosY=playerObject.y + playerObject.height / 2, playerSpeedX=playerObject.xSpeed, playerSpeedY=playerObject.ySpeed))
+                # Skud:
+            if event.key == pygame.K_e:  # and (playerObject.xSpeed !=0 or playerObject.ySpeed !=0):
+                shots.append(ShotClass(surface, spawnPosX=playerObject2.x + playerObject2.width,
+                                       spawnPosY=playerObject2.y + playerObject2.height / 2, playerSpeedX=5,
+                                       playerSpeedY=0))
 
         # KEY RELEASES:
         if event.type == pygame.KEYUP:
@@ -110,7 +118,7 @@ while not done:
             # Jumping
             if event.key == pygame.K_UP and not playerObject1.jumping:
                 jumpStartP1 = playerObject1.y - 1
-                playerObject1.ySpeed = -5
+                playerObject1.ySpeed = playerObject1.jumpSpeed
                 playerObject1.jumping = True
 
             # Player 2
@@ -121,7 +129,7 @@ while not done:
             # Jumping
             if event.key == pygame.K_w and not playerObject2.jumping:
                 jumpStartP2 = playerObject2.y - 1
-                playerObject2.ySpeed = -5
+                playerObject2.ySpeed = playerObject2.jumpSpeed
                 playerObject2.jumping = True
 
     # debug: print out unused pygame events
@@ -133,36 +141,25 @@ while not done:
     playerObject2.update()
     for shot in shots:
         shot.update()
-    for enemy in enemies:
-        enemyIsDead = False  # boolean to check if enemy is dead, and remove it at end of for loop
-        enemy.update()
-        if enemy.x > gameWindowWidth or enemy.y > gameWindowHeight or enemy.x < 0 or enemy.y < 0:
-            enemyIsDead = True
-        for shot in shots:
-            if collisionChecker(shot, enemy):
-                enemyIsDead = True
-                shots.remove(shot)
-                playerObject1.points += 1
-                enemy.playSound()
-                # print('Points:',playerObject.points)
-                if playerObject1.points > highScore:
-                    highScore = playerObject1.points
-        if collisionChecker(enemy, playerObject1):
-            playerObject1.collisionSFX.play()
-            print("OUCH!")
+        if collisionChecker(shot, playerObject1):
+            playerObject1.x += 50
+            shots.remove(shot)
 
-            playerObject1.points = 0
+        if collisionChecker(shot, playerObject2):
+            playerObject2.x += -50
+            shots.remove(shot)
+
     # Jumping player 1
     if playerObject1.jumping:
         if playerObject1.y < 350:
-            playerObject1.ySpeed = 5
+            playerObject1.ySpeed = playerObject1.gravity
         if playerObject1.y > jumpStartP1:
             playerObject1.jumping = False
 
     # Jumping player 2
     if playerObject2.jumping:
         if playerObject2.y < 350:
-            playerObject2.ySpeed = 5
+            playerObject2.ySpeed = playerObject1.gravity
         if playerObject2.y > jumpStartP2:
             playerObject2.jumping = False
 
@@ -198,7 +195,9 @@ while not done:
     Jørgen_2 = sprite_sheets.get_image(3, 211, 211, 1)
 
     # DRAW GAME OBJECTS:
-    surface.fill((0, 0, 0))  # blank screen. (or maybe draw a background)
+    # Drawing background
+    surface.blit(background, (0, 0))
+
     if playerObject1.jumping:
         playerObject1.draw(Jørgen_2)
     else:

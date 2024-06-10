@@ -5,7 +5,7 @@ class ShotClass:
 
     width=5
     height=5
-    color=(256 , 210, 230)
+    color=(255 , 255, 255)
 
     sfxPath = os.path.normpath(os.path.join('assets', 'sfx', 'pew.wav'))
     effect = pygame.mixer.Sound(sfxPath)

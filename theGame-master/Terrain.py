@@ -1,5 +1,4 @@
 import pygame
-from os.path import join
 
 pygame.init()
 
