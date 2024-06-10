@@ -51,7 +51,7 @@ background = pygame.transform.scale(background, (1920, 1080))
 #    StartingscreenClass()
 
 def createTerrain():
-    terrain.append(TerrainClass(surface, 600, 700, 800, 600))
+    terrain.append(TerrainClass( surface,600, 700, 900, 600,"Images/image.png"))
 
 
 createTerrain()
@@ -225,6 +225,8 @@ while not done:
     # push the scaled surface to the actual display:
     display.blit(pygame.transform.scale(surface, (gameWindowWidth, gameWindowHeight)), (0, 0))
     pygame.display.flip()
+    pygame.display.update()
+
 # When done is false the while loop above exits, and this code is run:
 # with open('highScoreFile', 'w') as file:
 #    print("Saving highscore to file:", highScore)
